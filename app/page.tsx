@@ -1,121 +1,127 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, CSSProperties } from 'react';
+
+const sliderImages = [
+  '/slide1.jpg',
+  '/slide2.jpg',
+  '/slide3.jpg',
+];
+
+const products = [
+  { id: 1, title: 'Gold Necklace', img: '/gold-ring.jpg' },
+  { id: 2, title: 'Diamond Ring', img: '/silver-necklace.jpg' },
+  { id: 3, title: 'Elegant Bracelet', img: '/diamond.jpg' },
+];
+
+const arrowStyle = (direction: 'left' | 'right'): CSSProperties => ({
+  position: 'absolute' as const,
+  top: '50%',
+  transform: 'translateY(-50%)',
+  [direction]: '10px',
+  fontSize: '24px',
+  background: '#fff',
+  border: 'none',
+  borderRadius: '50%',
+  cursor: 'pointer',
+  padding: '6px 10px',
+  boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+  zIndex: 1,
+});
 
 export default function Home() {
-  const slides = [
-    '/slide1.jpg',
-    '/slide2.jpg',
-    '/slide3.jpg',
-  ];
-
-  const products = [
-    { name: 'Gold Ring', desc: '21K Pure Brilliance', img: '/gold-ring.jpg' },
-    { name: 'Silver Necklace', desc: 'Elegant Shine', img: '/silver-necklace.jpg' },
-    { name: 'Diamond Bracelet', desc: 'Timeless Sparkle', img: '/diamond.jpg' },
-  ];
-
-  const [heroIndex, setHeroIndex] = useState(0);
+  const [slideIndex, setSlideIndex] = useState(0);
   const [productIndex, setProductIndex] = useState(0);
 
   useEffect(() => {
-    const heroTimer = setInterval(() => {
-      setHeroIndex((prev) => (prev + 1) % slides.length);
+    const interval = setInterval(() => {
+      setSlideIndex((prev) => (prev + 1) % sliderImages.length);
     }, 2000);
-    return () => clearInterval(heroTimer);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <main style={{ margin: 0, fontFamily: 'sans-serif' }}>
+    <div style={{ fontFamily: 'Arial, sans-serif', margin: 0, padding: 0 }}>
       {/* Navbar */}
       <nav style={{
         display: 'flex',
         justifyContent: 'space-between',
-        padding: '1rem',
-        background: '#000',
+        alignItems: 'center',
+        padding: '12px 20px',
+        backgroundColor: '#222',
         color: '#fff',
-        alignItems: 'center'
       }}>
-        <h1 style={{ margin: 0 }}>Captain Store</h1>
-        <div style={{ fontSize: '1.5rem', cursor: 'pointer' }}>☰</div>
+        <h1 style={{ fontSize: '20px', margin: 0 }}>BLOUDAN</h1>
+        <div style={{
+          width: '24px',
+          height: '18px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          cursor: 'pointer',
+        }}>
+          <span style={{ background: '#fff', height: '3px' }} />
+          <span style={{ background: '#fff', height: '3px' }} />
+          <span style={{ background: '#fff', height: '3px' }} />
+        </div>
       </nav>
 
       {/* Hero Slider */}
-      <section style={{
-        position: 'relative',
-        height: '70vh',
-        overflow: 'hidden'
-      }}>
+      <section style={{ position: 'relative', height: '70vh', overflow: 'hidden' }}>
         <img
-          src={slides[heroIndex]}
-          alt="Hero Slide"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: '0.5s' }}
+          src={sliderImages[slideIndex]}
+          alt="hero"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transition: 'opacity 0.5s ease-in-out',
+          }}
         />
         <button style={{
           position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          background: '#fff',
+          background: 'gold',
+          color: '#000',
+          padding: '12px 24px',
           border: 'none',
-          padding: '1rem 2rem',
-          fontWeight: 'bold',
+          borderRadius: '5px',
+          fontSize: '16px',
           cursor: 'pointer',
-          borderRadius: '5px'
+          fontWeight: 'bold',
         }}>
           Shop Now
         </button>
       </section>
 
-      {/* Top Rated Products Slider */}
-      <section style={{
-        marginTop: '2rem',
-        padding: '1rem',
-        textAlign: 'center'
-      }}>
-        <h2>Top Rated Products</h2>
-        <div style={{
-          position: 'relative',
-          height: '300px',
-          marginTop: '1rem',
-        }}>
+      {/* Top Rated Products */}
+      <section style={{ padding: '20px 0', textAlign: 'center', position: 'relative' }}>
+        <h2 style={{ marginBottom: '16px' }}>Top Rated Products</h2>
+        <div style={{ position: 'relative', width: '100%', overflow: 'hidden', maxWidth: '400px', margin: '0 auto' }}>
           <div style={{
             display: 'flex',
+            transition: 'transform 0.4s ease',
             transform: `translateX(-${productIndex * 100}%)`,
-            transition: '0.5s ease',
-            width: `${products.length * 100}%`
           }}>
-            {products.map((product, idx) => (
-              <div key={idx} style={{
-                flex: '0 0 100%',
-                padding: '1rem'
-              }}>
-                <img src={product.img} alt={product.name} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' }} />
-                <h3>{product.name}</h3>
-                <p>{product.desc}</p>
+            {products.map((p) => (
+              <div key={p.id} style={{ flex: '0 0 100%', padding: '10px' }}>
+                <img src={p.img} alt={p.title} style={{ width: '100%', borderRadius: '8px' }} />
+                <p style={{ marginTop: '8px', fontWeight: 'bold' }}>{p.title}</p>
               </div>
             ))}
           </div>
 
           {/* Arrows */}
-          <button onClick={() => setProductIndex((prev) => (prev - 1 + products.length) % products.length)} style={arrowStyle('left')}>‹</button>
-          <button onClick={() => setProductIndex((prev) => (prev + 1) % products.length)} style={arrowStyle('right')}>›</button>
+          <button onClick={() =>
+            setProductIndex((prev) => (prev - 1 + products.length) % products.length)
+          } style={arrowStyle('left')}>‹</button>
+          <button onClick={() =>
+            setProductIndex((prev) => (prev + 1) % products.length)
+          } style={arrowStyle('right')}>›</button>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
-
-const arrowStyle = (side: 'left' | 'right') => ({
-  position: 'absolute',
-  top: '50%',
-  [side]: '10px',
-  transform: 'translateY(-50%)',
-  fontSize: '2rem',
-  background: '#fff',
-  border: 'none',
-  borderRadius: '50%',
-  cursor: 'pointer',
-  padding: '0.3rem 0.7rem',
-  boxShadow: '0 0 10px rgba(0,0,0,0.2)'
-});
