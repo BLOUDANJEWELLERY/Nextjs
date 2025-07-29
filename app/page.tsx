@@ -3,15 +3,15 @@
 import { useState, useEffect, CSSProperties } from 'react';
 
 const sliderImages = [
-  '/slide1.jpg',
-  '/slide2.jpg',
-  '/slide3.jpg',
+  '/slide1.JPG',
+  '/slide2.JPG',
+  '/slide3.JPG',
 ];
 
 const products = [
-  { id: 1, title: 'Gold Necklace', img: '/gold-ring.jpg' },
-  { id: 2, title: 'Diamond Ring', img: '/silver-necklace.jpg' },
-  { id: 3, title: 'Elegant Bracelet', img: '/diamond.jpg' },
+  { id: 1, title: 'Gold Necklace', img: '/gold-ring.JPG' },
+  { id: 2, title: 'Diamond Ring', img: '/silver-necklace.JPG' },
+  { id: 3, title: 'Elegant Bracelet', img: '/diamond.JPG' },
 ];
 
 const arrowStyle = (direction: 'left' | 'right'): CSSProperties => ({
