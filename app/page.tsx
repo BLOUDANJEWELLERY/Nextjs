@@ -6,7 +6,7 @@ export default function Home() {
 
       <section style={{ display: 'flex', gap: '2rem', marginTop: '2rem' }}>
         <div style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
-          <h2>Gold Ring</h2>
+          <h2>Goldy Ring</h2>
           <p>Crafted in 21K brilliance.</p>
           <button>View Details</button>
         </div>
